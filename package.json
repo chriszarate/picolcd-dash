@@ -1,0 +1,21 @@
+{
+  "name": "picolcd-dash",
+  "version": "0.1.0",
+  "description": "A dashboard for a tiny LCD in my living room.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chriszarate/picolcd-dash"
+  },
+  "author": {
+    "name": "Chris Zarate",
+    "url": "http://chris.zarate.org"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lcdproc-client": "chriszarate/-lcdproc-client-node"
+  }
+}
