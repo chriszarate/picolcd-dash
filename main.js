@@ -58,9 +58,9 @@ var parseBusStatus = function (data) {
       busStatus = busName + ' is at layover';
     } else {
       if (previousTrip) {
-        busStatus = busName + ' XXX ' + distance;
+        busStatus = 'WAIT: ' + busName + ' ' + distance;
       } else {
-        busStatus = 'GO! ' + busName + ' ' + distance;
+        busStatus = 'GO NOW: ' + busName + ' ' + distance;
       }
     }
   }
@@ -84,7 +84,7 @@ var parseWeather = function (data) {
     var currentTemp = convertKtoF(tempData.temp);
     var highTemp = convertKtoF(tempData.temp_max);
     var description = weatherData.description;
-    weatherStatus = currentTemp + " H:" + highTemp + " " + description;
+    weatherStatus = 'Cur: ' + currentTemp + ' Hi: ' + highTemp + ' ' + description;
   }
 
   return weatherStatus;
@@ -93,16 +93,14 @@ var parseWeather = function (data) {
 
 var widgets = {
   'first_line': {
-    x: 1,
-    y: 1,
+    row: 1,
     default: 'Loading bus info....',
     apiRequest: mtaBusTimeApiRequest,
     apiProcessor: parseBusStatus,
     interval: 30000
   },
   'second_line': {
-    x: 1,
-    y: 2,
+    row: 2,
     default: 'Loading weather....',
     apiRequest: openWeatherApiRequest,
     apiProcessor: parseWeather,
@@ -122,12 +120,12 @@ lcd.on('ready', function () {
 
     var updateWidget = function () {
       getJSON(widget.apiRequest, function (data) {
-        lcd.updateWidget(key, widget.x, widget.y, widget.apiProcessor(data));
+        lcd.updateWidget(key, 1, widget.row, 20, widget.row, "h", 1, widget.apiProcessor(data));
       }, logError);
     };
 
-    lcd.addWidget(key);
-    lcd.updateWidget(key, widget.x, widget.y);
+    lcd.addWidget(key, 'scroller');
+    lcd.updateWidget(key, 1, widget.row, 20, widget.row, "h", 1, widget.default);
 
     updateWidget();
     setInterval(updateWidget, widget.interval);
